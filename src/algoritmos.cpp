@@ -4,6 +4,9 @@
 
 using namespace std;
 
+// valor por defecto del caso base (ver algoritmos.h)
+int UMBRAL = 64;
+
 // ---------------------------------------------------------------
 // Multiplicacion clasica (metodo del colegio), Theta(n^2)
 // ---------------------------------------------------------------

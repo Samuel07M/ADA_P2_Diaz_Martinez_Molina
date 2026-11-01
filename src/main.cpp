@@ -133,29 +133,17 @@ double medirUs(string (*multiplicar)(const string&, const string&),
     }
 }
 
-// Devuelve la ruta libre resultados/tabla_umbralU_corridaN.txt
-// (N = 1, 2, 3, ...) para no sobrescribir corridas anteriores.
-string rutaResultados() {
-    filesystem::create_directories("resultados");
-    int corrida = 1;
-    while (true) {
-        string ruta = "resultados/tabla_umbral" + to_string(UMBRAL) +
-                      "_corrida" + to_string(corrida) + ".txt";
-        if (!filesystem::exists(ruta)) {
-            return ruta;
-        }
-        corrida++;
-    }
-}
-
-void medir() {
+// Mide una tabla completa (n = 2 ... 4096) con el UMBRAL actual y la
+// guarda en resultados/tabla_umbralU_corridaN.txt.
+void medirCorrida(int corrida) {
     long long fantasma = 0;
 
     // la tabla se arma aqui y al final se muestra y se guarda en archivo
     ostringstream tabla;
     tabla << "n\tclasica_us\tkaratsuba_us" << endl;
 
-    cout << "\n--- Medicion de tiempos (microsegundos), UMBRAL = " << UMBRAL << " ---" << endl;
+    cout << "\n--- UMBRAL = " << UMBRAL << ", corrida " << corrida
+         << " (microsegundos) ---" << endl;
     cout << "n\tclasica_us\tkaratsuba_us" << endl;
 
     for (int n = 2; n <= 4096; n = n * 2) {
@@ -178,8 +166,9 @@ void medir() {
     // se imprime para que el compilador no pueda descartar los calculos
     cout << "(checksum: " << fantasma << ")" << endl;
 
-    // guardado automatico de la tabla (solo la tabla, sin el menu)
-    string ruta = rutaResultados();
+    // guardado de la tabla (solo la tabla, sin el menu)
+    string ruta = "resultados/tabla_umbral" + to_string(UMBRAL) +
+                  "_corrida" + to_string(corrida) + ".txt";
     ofstream archivo(ruta);
     if (archivo) {
         archivo << tabla.str();
@@ -188,6 +177,28 @@ void medir() {
     } else {
         cout << "ERROR: no se pudo crear " << ruta << endl;
     }
+}
+
+// Opcion 2 completa: 3 umbrales x 3 corridas = 9 archivos en una sola
+// ejecucion. La corrida k usa la misma semilla en los tres umbrales,
+// asi los tres umbrales se comparan con los mismos operandos.
+void medir() {
+    const int umbrales[3] = {3, 32, 64};
+    const int CORRIDAS = 3;
+    int umbralOriginal = UMBRAL;
+
+    filesystem::create_directories("resultados");
+
+    for (int u = 0; u < 3; u++) {
+        UMBRAL = umbrales[u];
+        for (int c = 1; c <= CORRIDAS; c++) {
+            srand(42 + c);   // misma entrada para la corrida c de cada umbral
+            medirCorrida(c);
+        }
+    }
+
+    UMBRAL = umbralOriginal;
+    cout << "\nListo: 9 tablas guardadas en la carpeta resultados/" << endl;
 }
 
 // ---------------------------------------------------------------
