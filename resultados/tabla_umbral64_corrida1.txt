@@ -1,0 +1,25 @@
+
+1. Validar correctitud
+2. Medir tiempos
+0. Salir
+> 
+--- Medicion de tiempos (microsegundos) ---
+n	clasica_us	karatsuba_us
+2	0.0509961	0.105415
+4	0.132639	0.172611
+8	0.237818	0.296657
+16	0.739392	0.805527
+32	2.72945	2.71539
+64	11.3588	11.187
+128	46.4627	37.3221
+256	196.296	115.915
+512	744.904	372.989
+1024	3093.35	1145.26
+2048	12347.7	4089.07
+4096	47090.6	10670.5
+(checksum: 14344192)
+
+1. Validar correctitud
+2. Medir tiempos
+0. Salir
+> 
