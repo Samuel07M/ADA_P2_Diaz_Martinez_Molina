@@ -4,11 +4,6 @@
 
 using namespace std;
 
-// Tamano (en digitos) a partir del cual karatsubaRec deja de dividir y
-// usa la multiplicacion clasica. Minimo 3 (con 2 o 3 la recursion no
-// achicaria el problema). Para el experimento probar 3, 32 y 64.
-static const int UMBRAL = 64;
-
 // ---------------------------------------------------------------
 // Multiplicacion clasica (metodo del colegio), Theta(n^2)
 // ---------------------------------------------------------------

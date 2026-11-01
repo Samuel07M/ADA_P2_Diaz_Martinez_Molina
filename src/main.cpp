@@ -2,6 +2,9 @@
 #include <string>
 #include <chrono>
 #include <cstdlib>
+#include <fstream>
+#include <sstream>
+#include <filesystem>
 #include "algoritmos.h"
 
 using namespace std;
@@ -130,10 +133,29 @@ double medirUs(string (*multiplicar)(const string&, const string&),
     }
 }
 
+// Devuelve la ruta libre resultados/tabla_umbralU_corridaN.txt
+// (N = 1, 2, 3, ...) para no sobrescribir corridas anteriores.
+string rutaResultados() {
+    filesystem::create_directories("resultados");
+    int corrida = 1;
+    while (true) {
+        string ruta = "resultados/tabla_umbral" + to_string(UMBRAL) +
+                      "_corrida" + to_string(corrida) + ".txt";
+        if (!filesystem::exists(ruta)) {
+            return ruta;
+        }
+        corrida++;
+    }
+}
+
 void medir() {
     long long fantasma = 0;
 
-    cout << "\n--- Medicion de tiempos (microsegundos) ---" << endl;
+    // la tabla se arma aqui y al final se muestra y se guarda en archivo
+    ostringstream tabla;
+    tabla << "n\tclasica_us\tkaratsuba_us" << endl;
+
+    cout << "\n--- Medicion de tiempos (microsegundos), UMBRAL = " << UMBRAL << " ---" << endl;
     cout << "n\tclasica_us\tkaratsuba_us" << endl;
 
     for (int n = 2; n <= 4096; n = n * 2) {
@@ -150,10 +172,22 @@ void medir() {
         double tKaratsuba = medirUs(karatsuba, A, B, fantasma);
 
         cout << n << "\t" << tClasica << "\t" << tKaratsuba << endl;
+        tabla << n << "\t" << tClasica << "\t" << tKaratsuba << endl;
     }
 
     // se imprime para que el compilador no pueda descartar los calculos
     cout << "(checksum: " << fantasma << ")" << endl;
+
+    // guardado automatico de la tabla (solo la tabla, sin el menu)
+    string ruta = rutaResultados();
+    ofstream archivo(ruta);
+    if (archivo) {
+        archivo << tabla.str();
+        archivo.close();
+        cout << "Tabla guardada en: " << ruta << endl;
+    } else {
+        cout << "ERROR: no se pudo crear " << ruta << endl;
+    }
 }
 
 // ---------------------------------------------------------------
