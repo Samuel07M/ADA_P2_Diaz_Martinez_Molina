@@ -28,7 +28,6 @@ ADA_P2_Diaz_Martinez_Molina/
 │   └── Karatsuba_tiempos.xlsx            # medianas, razones y gráfica log-log
 └── informe/
     ├── informe.pdf                       # informe de la práctica
-    ├── informe.tex                       # fuente LaTeX del informe
     ├── grafica_tiempos.png               # tiempo vs. tamaño (log-log)
     └── grafica_cociente.png              # Karatsuba / clásica y punto de cruce
 ```
