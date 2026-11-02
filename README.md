@@ -8,7 +8,7 @@ en base 10, con validación de correctitud y medición de tiempos.
 
 ## Integrantes
 
-- Santiago Díaz Quintero
+- Santiago Díaz
 - Juan Diego Martínez Jaramillo
 - Samuel Molina Garcés
 
@@ -37,7 +37,7 @@ ADA_P2_Diaz_Martinez_Molina/
 - Compilador `g++` con soporte de C++17 o superior
 - `make`
 
-En distros linux Ubuntu o Debian se instalan con:
+En Ubuntu o WSL se instalan con:
 
 ```bash
 sudo apt update
@@ -130,7 +130,7 @@ Protocolo de medición:
 - Cada multiplicación se repite hasta acumular al menos 10 ms y se reporta
   el promedio por ejecución (en microsegundos)
 - Una llamada de calentamiento previa, que no se cronometra
-- El resultado se consume en un acumulador (`fantasma`) para que el
+- El resultado se consume en un acumulador (`checksum`) para que el
   compilador no elimine el cálculo con `-O2`
 
 Los tiempos absolutos dependen de la máquina. Para comparar resultados,
@@ -151,8 +151,6 @@ reporta la mediana (ver `resultados/Karatsuba_tiempos.xlsx`). Resumen:
 
 - Con `UMBRAL = 64`, Karatsuba supera al clásico desde **n = 128** dígitos y en
   n = 4096 es unas 4,4 veces más rápido (12,4 ms frente a 54,4 ms).
-- Con `UMBRAL = 32` el cruce también aparece en n = 128 y en n = 4096 tarda
-  12,7 ms (≈ 4,3 veces más rápido que la clásica).
 - Con `UMBRAL = 3` (Karatsuba puro) el cruce **no aparece** entre 2 y 4096
   dígitos, por el costo de las copias y reservas de memoria de cada llamada.
 - Al duplicar n, el clásico tarda ~4 veces más (Θ(n²)) y Karatsuba ~3 veces
@@ -174,8 +172,9 @@ El análisis completo está en [`informe/informe.pdf`](informe/informe.pdf).
 - La recursión iguala las longitudes entre sí sin redondear a potencia de 2,
   porque `x1 + x0` puede tener un dígito más.
 - Caso base: n <= UMBRAL (variable global, 64 por defecto; mínimo 3), resuelto
-  con la multiplicación clásica. Con n = 2 o 3, `x1 + x0` puede tener n dígitos,
-  así que P3 no se achica y la recursión no terminaría.
+  con la multiplicación clásica. Con n = 2 o n = 3, x1 + x0 puede tener n
+  dígitos (9 + 9 = 18, 9 + 99 = 108), así que P3 no se achica y la recursión
+  no terminaría. Desde n = 4, x1 + x0 tiene a lo sumo m + 1 < n dígitos.
 - Orden de la resta: `(P3 - P1) - P2`, para que ningún resultado
   intermedio sea negativo.
 
