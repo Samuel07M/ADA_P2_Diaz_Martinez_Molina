@@ -8,7 +8,7 @@ en base 10, con validación de correctitud y medición de tiempos.
 
 ## Integrantes
 
-- Santiago Díaz
+- Santiago Díaz Quintero
 - Juan Diego Martínez Jaramillo
 - Samuel Molina Garcés
 
@@ -37,7 +37,7 @@ ADA_P2_Diaz_Martinez_Molina/
 - Compilador `g++` con soporte de C++17 o superior
 - `make`
 
-En Ubuntu o WSL se instalan con:
+En distros linux Ubuntu o Debian se instalan con:
 
 ```bash
 sudo apt update
