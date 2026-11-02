@@ -8,7 +8,7 @@ en base 10, con validación de correctitud y medición de tiempos.
 
 ## Integrantes
 
-- Santiago Díaz
+- Santiago Díaz Quintero
 - Juan Diego Martínez Jaramillo
 - Samuel Molina Garcés
 
@@ -37,7 +37,7 @@ ADA_P2_Diaz_Martinez_Molina/
 - Compilador `g++` con soporte de C++17 o superior
 - `make`
 
-En Ubuntu o WSL se instalan con:
+En Ubuntu o Debian se instalan con:
 
 ```bash
 sudo apt update
@@ -130,7 +130,7 @@ Protocolo de medición:
 - Cada multiplicación se repite hasta acumular al menos 10 ms y se reporta
   el promedio por ejecución (en microsegundos)
 - Una llamada de calentamiento previa, que no se cronometra
-- El resultado se consume en un acumulador (`checksum`) para que el
+- El resultado se consume en un acumulador (`fantasma`) para que el
   compilador no elimine el cálculo con `-O2`
 
 Los tiempos absolutos dependen de la máquina. Para comparar resultados,
@@ -151,6 +151,8 @@ reporta la mediana (ver `resultados/Karatsuba_tiempos.xlsx`). Resumen:
 
 - Con `UMBRAL = 64`, Karatsuba supera al clásico desde **n = 128** dígitos y en
   n = 4096 es unas 4,4 veces más rápido (12,4 ms frente a 54,4 ms).
+- Con `UMBRAL = 32` el cruce también aparece en n = 128 y en n = 4096 tarda
+  12,7 ms (≈ 4,3 veces más rápido que la clásica).
 - Con `UMBRAL = 3` (Karatsuba puro) el cruce **no aparece** entre 2 y 4096
   dígitos, por el costo de las copias y reservas de memoria de cada llamada.
 - Al duplicar n, el clásico tarda ~4 veces más (Θ(n²)) y Karatsuba ~3 veces
