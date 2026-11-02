@@ -142,7 +142,7 @@ programas pesados durante la medición.
 | | |
 |---|---|
 | Equipo | Lenovo Legion, Intel Core Ultra 9 275HX |
-| Sistema operativo | Ubuntu sobre WSL (Windows) |
+| Sistema operativo | Ubuntu 26.04 LTS |
 | Compilador | g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0 |
 | Banderas | `-std=c++17 -O2 -Wall` |
 
