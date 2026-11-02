@@ -7,9 +7,7 @@ using namespace std;
 // valor por defecto del caso base (ver algoritmos.h)
 int UMBRAL = 64;
 
-// ---------------------------------------------------------------
 // Multiplicacion clasica (metodo del colegio), Theta(n^2)
-// ---------------------------------------------------------------
 string multiplicacionClasica(const string& A, const string& B) {
     int la = (int)A.length();
     int lb = (int)B.length();
@@ -43,11 +41,9 @@ string multiplicacionClasica(const string& A, const string& B) {
     return normalizar(resultado);
 }
 
-// ---------------------------------------------------------------
 // Karatsuba recursiva (privada a este archivo)
 // Acepta longitudes distintas: las iguala entre si, sin redondear
-// a potencia de 2.
-// ---------------------------------------------------------------
+// a potencia de 2
 static string karatsubaRec(const string& A0, const string& B0) {
     // igualamos las longitudes de A y B
     int n = (int)A0.length();
@@ -64,16 +60,15 @@ static string karatsubaRec(const string& A0, const string& B0) {
 
     int m = (n + 1) / 2;   // cantidad de digitos de la mitad baja
 
-    // partimos: x = x1*10^m + x0   y   y = y1*10^m + y0
+    // partimos: x = x1*10^m + x0 y y = y1*10^m + y0
     string x1, x0, y1, y0;
     partir(A, m, x1, x0);
     partir(B, m, y1, y0);
 
-    // ---- las 3 llamadas recursivas ----
-    string P1 = karatsubaRec(x1, y1);                          // llamada 1: x1*y1
-    string P2 = karatsubaRec(x0, y0);                          // llamada 2: x0*y0
-    string P3 = karatsubaRec(sumar(x1, x0), sumar(y1, y0));    // llamada 3: (x1+x0)*(y1+y0)
-    // -----------------------------------
+    // llamadas recursivas
+    string P1 = karatsubaRec(x1, y1); // llamada 1: x1*y1
+    string P2 = karatsubaRec(x0, y0); // llamada 2: x0*y0
+    string P3 = karatsubaRec(sumar(x1, x0), sumar(y1, y0)); // llamada 3: (x1+x0)*(y1+y0)
 
     // termino central, en el orden exigido: (P3 - P1) - P2
     string medio = restar(P3, P1);
@@ -86,9 +81,7 @@ static string karatsubaRec(const string& A0, const string& B0) {
     return resultado;
 }
 
-// ---------------------------------------------------------------
 // Karatsuba publica (envoltura)
-// ---------------------------------------------------------------
 string karatsuba(const string& A, const string& B) {
     // quitamos los ceros a la izquierda
     string a = normalizar(A);
